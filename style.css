@@ -1,0 +1,54 @@
+@import url('https://fonts.cdnfonts.com/css/brush');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+body {
+    background-color: rgb(245, 220, 238);
+}
+
+header.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+    padding-top: 20px;
+    padding-bottom: 30px;
+    background-color: antiquewhite;
+    font-family: 'brush', sans-serif;
+}
+
+h1#title-project {
+    font-size: 6rem;
+    background: linear-gradient(to left,
+    violet,
+    indigo,
+    blue,
+    green,
+    yellow,
+    orange,
+    red);
+background-clip: text;
+color: transparent;
+}
+
+section.nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid red;
+    width: 800px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.nav > .btns {
+    padding: 15px 20px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    border-color: peachpuff;
+}
