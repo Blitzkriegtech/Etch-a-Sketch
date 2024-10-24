@@ -63,7 +63,7 @@ function createGridBox(nSize) {
         sketchPad_div.appendChild(gridTile);
 
         // Event handlers for sketching in the sketch-pad
-        gridTile.addEventListener('mousedown', function() {
+        gridTile.addEventListener('mousedown', function(e) {
             sketching = true;
             if (isEraserMode) {
             this.style.backgroundColor = 'white';
@@ -73,7 +73,8 @@ function createGridBox(nSize) {
             applyOpacity(this);
         } else {
             this.style.backgroundColor = selectedColor;
-            }     
+            }
+            e.preventDefault();     
         });
 
         gridTile.addEventListener('mousemove', function(e) {
@@ -104,7 +105,7 @@ function createGridBox(nSize) {
 
 // Callback function to clear the the current size of the grid before resizing it
 function clearGrid() {
-    sketchPad_div.textContent = ''; // Clear the existing grid tiles
+    sketchPad_div.innerHTML = ''; // Clear the existing grid tiles
 }
 
 // Function for storing the input value from prompt and validation of the said value
@@ -117,14 +118,17 @@ function getSize() {
         boardMessage.textContent = `Please provide a number.`;
         boardMessage.style.color = 'red';
         setTimeout(()=> boardMessage.textContent = '', 3000);
+        return null; // Return null if the input is out of bounds
     } else if (input < 1 || input > 100) {
         boardMessage.textContent = `Please provide a number between 1 and 100.`;
         boardMessage.style.color = 'red';
         setTimeout(()=> boardMessage.textContent = '', 3000);
+        return null; // Return null if the input is out of bounds
     } else {
         boardMessage.textContent = `Perfect!`;
         boardMessage.style.color = 'green';
         setTimeout(()=> boardMessage.textContent = '', 3000);
+        return parseInt(input); // Return the valid number as an integer
     }
     
 };
@@ -191,7 +195,7 @@ colofulBtn.addEventListener('click', function() {
     }
 });
 
-//Toggle shade
+//Toggle shader
 
 shadeBtn.addEventListener('click', function(){
     shader = !shader;
