@@ -4,19 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
     <script src="logic.js" defer></script>
     <title>Etch-a-Sketch</title>
 </head>
 <body>
-    <header class="header">
-        <h1 id="title-project">Etch-a-Sketch</h1>
-    </header>
-    <!-- <hr class="horizontal-line"> -->
-    <section class="nav">
-        <button class="btns" id="grid-dimension">New Grid</button>
-        <button class="btns" id="color-options">Color Palete</button>
-        <button class="btns" id="board-reset">Refresh board</button>
-    </section>
-    <div class="container" id="mother-box"></div>
+    <!-- Header Title -->
+     <header class="header">
+        <h1 class="title-page">Etch-a-Sketch</h1>
+     </header>
+    <div class="main-container">
+        <!--tools -->
+        <div class="nav-container">
+            <div class="toggle" id="grid-on">
+                <span class="material-symbols-outlined">background_grid_small</span>
+                <span class="btn-toggle">Grid</span>
+            </div>
+            <div class="toggle" id="clear-sketch">
+                <span class="material-symbols-outlined">clear_all</span>
+                <span class="btn-toggle">Clear</span>
+            </div>
+            <div class="toggle" id="rgb-toggle">
+                <span class="material-symbols-outlined">colorize</span>
+                <span class="btn-toggle">Colorful</span>
+            </div>
+            <div class="toggle" id="color-eraser">
+                <span class="material-symbols-outlined">ink_eraser</span>
+                <span class="btn-toggle">Eraser</span>
+            </div>
+            <div class="toggle" id="color-shading">
+                <span class="material-symbols-outlined">stroke_partial</span>
+                <span class="btn-toggle">Shade</span>
+            </div>
+            <div class="toggle" id="color-picker">
+                <input type="color" id="pen-color" name="pen-color" value="#000000" />
+                <span class="btn-toggle">Palette</span>
+            </div>
+            <div class="toggle" id="edit-size">
+                <span class="material-symbols-outlined">edit_document</span>
+                <span class="btn-toggle">Edit Size</span>
+            </div>
+        </div>
+
+        <!-- Sketch area/pad -->
+         <div class="container" id="sketch-pad"></div>
+    </div>
+    <p id="board-message"></p>
+
 </body>
 </html>
