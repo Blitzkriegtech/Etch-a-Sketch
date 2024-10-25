@@ -5,35 +5,25 @@ let defaultSize = 16;
 const sketchPad_div = document.querySelector('#sketch-pad');
 sketchPad_div.style.width = sketchPad_div.style.height =`${gridSize}px`;
 
-//Toggle shade
 let opacityMap = {}; // Stores opacity values for each tile
 let shadeBtn = document.querySelector('#color-shading');
 let shader = false;
 
-// Toggle grid lines
 const gridLineToggle = document.querySelector('#grid-on');
 let gridVisibility = false;
-
-// Toggle eraser
 
 let isEraserMode = false;
 const eraserBtn = document.querySelector('#color-eraser');
 
-//Toggle color picker
 let sketching = false; // this line is to identify if the mouse is clicked down
 const colorPicker = document.querySelector('#pen-color');
 let selectedColor = colorPicker.value;
 
-// Toggle Clear/Reset board
 const gridCells = document.getElementsByClassName('grid-tile');
 const clearBtn = document.querySelector('#clear-sketch');
 
-//Toggle Colorful for random colors
 let isColorfulMode = false;
 const colofulBtn = document.querySelector('#rgb-toggle');
-
-
-
 
 
 // Call createGridBox with the default grid size when the page loads
@@ -133,11 +123,6 @@ function getSize() {
     
 };
 
-
-// ++++++ Toggle functions +++++++
-
-// Toggle grid lines
-
 gridLineToggle.addEventListener('click', switchGrid);
 function switchGrid() {
     gridVisibility = !gridVisibility;
@@ -152,8 +137,6 @@ function switchGrid() {
         }      
 }};
 
-// Toggle eraser
-
 eraserBtn.addEventListener('click', function() {
     isEraserMode =! isEraserMode;
     if (isEraserMode) {
@@ -163,16 +146,11 @@ eraserBtn.addEventListener('click', function() {
     }
 });
 
-//Toggle color picker
-
 colorPicker.addEventListener('click', togglePen);
 function togglePen() {
         colorPicker.addEventListener('input', function() {
-            selectedColor = this.value;})};
-
-
-
-// Toggle Clear/Reset board
+            selectedColor = this.value;
+})};
 
 clearBtn.addEventListener('click', clearSketch);
 function clearSketch() {
@@ -184,8 +162,6 @@ function clearSketch() {
     }
 };
 
-//Toggle Colorful for random colors
-
 colofulBtn.addEventListener('click', function() {
     isColorfulMode = !isColorfulMode;
     if (isColorfulMode) {
@@ -194,8 +170,6 @@ colofulBtn.addEventListener('click', function() {
         colofulBtn.style.borderColor = 'whitesmoke';
     }
 });
-
-//Toggle shader
 
 shadeBtn.addEventListener('click', function(){
     shader = !shader;
