@@ -3,28 +3,22 @@ let defaultSize = 16;
 
 
 const sketchPad_div = document.querySelector('#sketch-pad');
-sketchPad_div.style.width = sketchPad_div.style.height =`${gridSize}px`;
-
-let opacityMap = {}; // Stores opacity values for each tile
-let shadeBtn = document.querySelector('#color-shading');
-let shader = false;
-
+const shadeBtn = document.querySelector('#color-shading');
 const gridLineToggle = document.querySelector('#grid-on');
-let gridVisibility = false;
-
-let isEraserMode = false;
 const eraserBtn = document.querySelector('#color-eraser');
-
-let sketching = false; // this line is to identify if the mouse is clicked down
 const colorPicker = document.querySelector('#pen-color');
-let selectedColor = colorPicker.value;
-
 const gridCells = document.getElementsByClassName('grid-tile');
 const clearBtn = document.querySelector('#clear-sketch');
+const colorfulBtn = document.querySelector('#rgb-toggle');
+const sizeAdj = document.querySelector('#edit-size');
 
+let opacityMap = {}; // Stores opacity values for each tile
+let gridVisibility = false;
+let isEraserMode = false;
 let isColorfulMode = false;
-const colofulBtn = document.querySelector('#rgb-toggle');
-
+let shader = false;
+let sketching = false;
+let selectedColor = colorPicker.value;
 
 // Call createGridBox with the default grid size when the page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -32,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Event handler - takes the input value to adjust the size of the grid
-const sizeAdj = document.querySelector('#edit-size');
 sizeAdj.addEventListener('click', function() {
     let nSize = getSize();
     if (nSize) {
@@ -40,63 +33,6 @@ sizeAdj.addEventListener('click', function() {
         createGridBox(nSize);
     }
 });
-
-// Function to create grid boxes by manipulating the DOM tree
-function createGridBox(nSize) {
-    const numOfTiles = nSize * nSize;
-    for (let i = 0; i < numOfTiles; i++) {
-        const gridTile = document.createElement('div');
-        gridTile.style.width = gridTile.style.height = `${(gridSize / nSize) - 2}px`;
-        gridTile.classList.add('grid-tile');
-        gridTile.setAttribute('data-index', i); // Unique index for each tile
-        opacityMap[i] = 0; // Initialize opacity value for each tile
-        sketchPad_div.appendChild(gridTile);
-
-        // Event handlers for sketching in the sketch-pad
-        gridTile.addEventListener('mousedown', function(e) {
-            sketching = true;
-            if (isEraserMode) {
-            this.style.backgroundColor = 'white';
-         } else if (isColorfulMode) {
-            this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-         } else if (shader) {
-            applyOpacity(this);
-        } else {
-            this.style.backgroundColor = selectedColor;
-            }
-            e.preventDefault();     
-        });
-
-        gridTile.addEventListener('mousemove', function(e) {
-            if (sketching) {
-                if (isEraserMode) {
-                this.style.backgroundColor = 'white';
-                } else if (isColorfulMode) {
-                    this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-             } else if (shader) {
-                applyOpacity(this);
-            } else {
-                this.style.backgroundColor = selectedColor;
-                } 
-            }
-            e.preventDefault();
-        });
-
-        gridTile.addEventListener('dragstart', function(e) {
-            e.preventDefault();
-        })
-
-        document.addEventListener('mouseup', function(e) {
-            sketching = false;
-            e.preventDefault();
-        });
-    }
-}
-
-// Callback function to clear the the current size of the grid before resizing it
-function clearGrid() {
-    sketchPad_div.innerHTML = ''; // Clear the existing grid tiles
-}
 
 // Function for storing the input value from prompt and validation of the said value
 // to ensure it is in range
@@ -119,8 +55,62 @@ function getSize() {
         boardMessage.style.color = 'green';
         setTimeout(()=> boardMessage.textContent = '', 3000);
         return parseInt(input); // Return the valid number as an integer
+    }    
+};
+
+function clearGrid() {
+    sketchPad_div.innerHTML = ''; // Clear the existing grid tiles
+};
+
+function createGridBox(nSize) {
+    sketchPad_div.style.width = sketchPad_div.style.height =`${gridSize}px`;
+    const numOfTiles = nSize * nSize;
+    for (let i = 0; i < numOfTiles; i++) {
+        const gridTile = document.createElement('div');
+        gridTile.style.width = gridTile.style.height = `${(gridSize / nSize) - 2}px`;
+        gridTile.classList.add('grid-tile');
+        gridTile.setAttribute('data-index', i); // Unique index for each tile
+        opacityMap[i] = 0; // Initialize opacity value for each tile
+        sketchPad_div.appendChild(gridTile);
+
+        gridTile.addEventListener('mousedown', function(e) {
+            sketching = true;
+            if (isEraserMode) {
+            this.style.backgroundColor = '';
+         } else if (isColorfulMode) {
+            this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+         } else if (shader) {
+            applyOpacity(this);
+        } else {
+            this.style.backgroundColor = selectedColor;
+            }
+            e.preventDefault();     
+        });
+
+        gridTile.addEventListener('mousemove', function(e) {
+            if (sketching) {
+                if (isEraserMode) {
+                this.style.backgroundColor = '';
+                } else if (isColorfulMode) {
+                    this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+             } else if (shader) {
+                applyOpacity(this);
+            } else {
+                this.style.backgroundColor = selectedColor;
+                } 
+            }
+            e.preventDefault();
+        });
+
+        gridTile.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        })
+
+        document.addEventListener('mouseup', function(e) {
+            sketching = false;
+            e.preventDefault();
+        });
     }
-    
 };
 
 gridLineToggle.addEventListener('click', switchGrid);
@@ -156,18 +146,18 @@ clearBtn.addEventListener('click', clearSketch);
 function clearSketch() {
     if (confirm('Are you sure to clear the sketch?')) {
     for (let i = 0; i < gridCells.length; i++) {
-        gridCells[i].style.backgroundColor = 'white';
+        gridCells[i].style.backgroundColor = '';
     }} else {
-        return;
+        return null;
     }
 };
 
-colofulBtn.addEventListener('click', function() {
+colorfulBtn.addEventListener('click', function() {
     isColorfulMode = !isColorfulMode;
     if (isColorfulMode) {
-        colofulBtn.style.borderColor = 'grey'
+        colorfulBtn.style.borderColor = 'grey'
     } else {
-        colofulBtn.style.borderColor = 'whitesmoke';
+        colorfulBtn.style.borderColor = 'whitesmoke';
     }
 });
 
@@ -184,7 +174,7 @@ function applyOpacity(tile) {
     const index = tile.getAttribute('data-index');
     let currentOpacity = opacityMap[index];
     if (isEraserMode) {
-        tile.style.backgroundColor = 'white';
+        tile.style.backgroundColor = '';
         opacityMap[index] = 0; // Reset opacity when erasing
     } else {
         if (currentOpacity < 1) {
